@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 
 const authRouter = require('./router/auth');
 const userTypeRouter = require('./router/userType');
+const freelancerRouter = require('./router/freelancer');
 
 app.use(express.json());
 app.use(bodyParser.json());
@@ -29,6 +30,7 @@ dotenv.config({path: './config/.env'});
 
 app.use('/auth',authRouter);
 app.use('/userType',userTypeRouter);
+app.use('/freelancer',freelancerRouter);
 
 mongoose.connect(process.env.MONGO_URI).then(result=>{
     app.listen(process.env.PORT, (req,res,next)=>{
