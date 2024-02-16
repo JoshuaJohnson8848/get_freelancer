@@ -113,7 +113,6 @@ exports.updateProfile = async (req, res, next) => {
         updated: true
       });
   } catch (err) {
-    console.log(err);
     if (!err.status) {
       err.status = 500;
     }
