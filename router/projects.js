@@ -13,6 +13,8 @@ router.post('', isAuth, projectController.createProject);
 
 router.put('/:id', isAuth, projectController.updateProject);
 
+router.put('/approve/:id', isAuth, projectController.approve);
+
 router.delete('/:id', isAuth, projectController.deleteProject);
 
 module.exports = router;

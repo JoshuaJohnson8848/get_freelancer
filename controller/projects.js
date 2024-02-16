@@ -129,3 +129,29 @@ exports.deleteProject = async (req, res, next) => {
       next();
     }
   };
+
+exports.approve = async (req, res, next) => {
+  try {
+    const { approve } = req.body;
+    const { id } = req.params;
+    const data = await Project.findById(id);
+    if (!data) {
+      const error = new Error('Project Not Found');
+      error.status = 404;
+      throw error;
+    }
+    data.approved = approve;
+    const approved = await data.save();
+    if (!approved) {
+      const error = new Error('Project Not Found');
+      error.status = 404;
+      throw error;
+    }
+    res.status(200).json({ message: 'Approved' });
+  } catch (err) {
+    if (!err.status) {
+      err.status = 500;
+    }
+    next();
+  }
+};

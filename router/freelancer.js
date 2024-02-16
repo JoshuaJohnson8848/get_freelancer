@@ -9,7 +9,4 @@ router.post('', isAuth, freelancerController.createProfile);
 
 router.put('', isAuth, freelancerController.updateProfile);
 
-
-
-
 module.exports = router;

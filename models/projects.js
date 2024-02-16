@@ -29,6 +29,11 @@ const projectSchema = new Schema({
     languages: {
         type: String,
         required: true,
+    },
+    approved: {
+        type: Boolean,
+        required: true,
+        default: false,
     }
 })
 
