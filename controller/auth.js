@@ -91,7 +91,7 @@ exports.login = async (req, res, next) => {
     }
     res
       .status(200)
-      .json({ message: 'Logged In Successfully', user: loadedUser });
+      .json({ message: 'Logged In Successfully', user: loadedUser, token: token });
   } catch (err) {
     if (!err.status) {
       err.status = 500;
