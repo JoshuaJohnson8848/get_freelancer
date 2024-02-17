@@ -1,9 +1,15 @@
 const Project = require('../models/projects')
+const { isAdmin, isClient, isFreelancer } = require('../utils/userType');
 
 exports.createProject = async (req, res, next) => {
   try {
     const { title, desc, requirement, budget, duration, languages } = req.body;
-    const { userId } = req;
+    const { userId, userType } = req;
+    if((userType == isFreelancer)){
+      const error = new Error('No Permission');
+      error.status = 422;
+      throw error;
+    }
     const data = await new Project({
       userId: userId,
       title: title,
