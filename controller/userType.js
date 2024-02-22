@@ -1,4 +1,3 @@
-const userType = require('../models/userType');
 const UserType = require('../models/userType');
 const { isClient, isFreelancer } = require('../utils/userType');
 
@@ -102,6 +101,49 @@ exports.getAll = async (req, res, next) => {
       throw error;
     }
     res.status(200).json({ message: 'UserTypes Fetched', data: userTypes });
+  } catch (err) {
+    if (!err.status) {
+      err.status = 500;
+    }
+    next(err);
+  }
+};
+
+exports.getUsersByType = async (req, res, next) => {
+  try {
+    const { userType } = req.params;
+    if (!userType) {
+      const error = new Error('UerType Not Found');
+      error.status = 404;
+      throw error;
+    }
+    const data = await UserType.aggregate([
+      {
+        $match: { userType: userType },
+      },
+      {
+        $lookup: {
+          from: 'users',
+          localField: '_id',
+          foreignField: 'userType',
+          as: 'userData',
+        },
+      },
+      {
+        $unwind: {
+          path: '$userData',
+        },
+      },
+      {
+        $project: {
+          userType: 1,
+          name: '$userData.name',
+          email: '$userData.email',
+          userId: '$userData._id',
+        },
+      },
+    ]);
+    res.status(200).json({message: "Users Fetched", data: data})
   } catch (err) {
     if (!err.status) {
       err.status = 500;

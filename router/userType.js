@@ -5,6 +5,8 @@ const isAuth = require('../middleware/isAuth');
 
 router.get('', isAuth, userTypeController.getAll);
 
+router.get('/:userType', isAuth, userTypeController.getUsersByType);
+
 router.post('', isAuth, userTypeController.createUserType);
 
 router.put('/:id', isAuth, userTypeController.update);
